@@ -6,6 +6,7 @@ contract WRC {
   enum treatmentlevel{Preliminary ,Primary,Secondary,Tertiary,Disinfection}
 
   struct orgName{
+
     address payable orgAddress;
     //Type of the business as defined in the enum Category
     string businessType;
@@ -13,7 +14,7 @@ contract WRC {
     //This gives WRC to incentivice/penalize depending upon the loowoable threshold
     string businessSize;
   }
-
+  mapping(address => orgName) public orgNames;
   //expected allowable threashold
   struct allowlableLimit{
     uint maxAllowableWaterUsage;
@@ -25,8 +26,27 @@ contract WRC {
   struct observations{
     uint WaterUsed;
   }
+  event logAllOrgUsage(address indexed orgNameEvent, string businessTypeEvnt, string businessSizeEvnt);
   constructor() public {
     owner = msg.sender;
+  }
+
+  //New organization will register to this program
+  function getAllOrgUsage(string memory _businessType, string memory _businessSize) public {
+
+    orgNames[msg.sender] = orgName({orgAddress:msg.sender,businessType:_businessType, businessSize:_businessSize});
+    emit logAllOrgUsage(msg.sender, _businessType, _businessSize);
+
+  }
+
+  function getPerOrgUsage(address _orgAddress) public view returns(address RetorgAddress, string memory RetbusinessType, string memory RetbusinessSize){
+    orgName storage _orgName = orgNames[_orgAddress];
+
+    RetorgAddress = _orgName.orgAddress;
+    RetbusinessType = _orgName.businessType;
+    RetbusinessSize = _orgName.businessSize;
+
+    return(RetorgAddress, RetbusinessType, RetbusinessSize);
   }
 
   /// @notice This function allows the owner only to kill this contract
