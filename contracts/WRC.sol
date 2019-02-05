@@ -17,9 +17,14 @@ contract WRC {
   //expected allowable threashold
   struct allowlableLimit{
     uint maxAllowableWaterUsage;
+    uint recycleable;
+    uint moreThanRecycleable;
   }
 
-  //Actual observations
+  //Actual observations read from IoT devices
+  struct observations{
+    uint WaterUsed;
+  }
   constructor() public {
     owner = msg.sender;
   }
