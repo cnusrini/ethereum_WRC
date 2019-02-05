@@ -2,6 +2,24 @@ pragma solidity >=0.4.21 <0.6.0;
 
 contract WRC {
   address payable owner;
+  enum category {vegetables, meat, dairyproducts, fatsandoil}
+  enum treatmentlevel{Preliminary ,Primary,Secondary,Tertiary,Disinfection}
+
+  struct orgName{
+    address payable orgAddress;
+    //Type of the business as defined in the enum Category
+    string businessType;
+    //Size of the busines dictates the quantity of water needed to operate the business.
+    //This gives WRC to incentivice/penalize depending upon the loowoable threshold
+    string businessSize;
+  }
+
+  //expected allowable threashold
+  struct allowlableLimit{
+    uint maxAllowableWaterUsage;
+  }
+
+  //Actual observations
   constructor() public {
     owner = msg.sender;
   }
