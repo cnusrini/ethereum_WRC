@@ -13,8 +13,9 @@ contract WRC {
     //Size of the busines dictates the quantity of water needed to operate the business.
     //This gives WRC to incentivice/penalize depending upon the loowoable threshold
     string businessSize;
+    allowlableLimit _allowlableLimit;
   }
-  mapping(address => orgName) public orgNames;
+  mapping(address => orgName) orgNames;
   //expected allowable threashold
   struct allowlableLimit{
     uint maxAllowableWaterUsage;
@@ -24,7 +25,15 @@ contract WRC {
 
   //Actual observations read from IoT devices
   struct observations{
-    uint WaterUsed;
+    uint deciveID;
+    uint waterUsed;
+    uint waterSupplyed;
+    uint perRecycled;
+  }
+
+  struct calculations{
+    uint incentive;
+    uint penality;
   }
   event logAllOrgUsage(address indexed orgNameEvent, string businessTypeEvnt, string businessSizeEvnt);
   constructor() public {
@@ -32,21 +41,49 @@ contract WRC {
   }
 
   //New organization will register to this program
-  function getAllOrgUsage(string memory _businessType, string memory _businessSize) public {
+  function registerNewOrg(
+    string memory _businessType,
+    string memory _businessSize,
+    uint _maxAllowableWaterUsage,
+    uint _recycleable,
+    uint _moreThanRecycleable
+  )
+    public returns(bool){
 
-    orgNames[msg.sender] = orgName({orgAddress:msg.sender,businessType:_businessType, businessSize:_businessSize});
-    emit logAllOrgUsage(msg.sender, _businessType, _businessSize);
+      orgName storage _orgName = orgNames[msg.sender];
 
+      _orgName.orgAddress = msg.sender;
+      _orgName.businessType = _businessType;
+      _orgName.businessSize = _businessSize;
+      _orgName._allowlableLimit.maxAllowableWaterUsage = _maxAllowableWaterUsage;
+      _orgName._allowlableLimit.recycleable = _recycleable;
+      _orgName._allowlableLimit.moreThanRecycleable = _moreThanRecycleable;
+
+      return true;
+
+    }
+  function getAllOrgsUsage() public view {
+    
   }
-
-  function getPerOrgUsage(address _orgAddress) public view returns(address RetorgAddress, string memory RetbusinessType, string memory RetbusinessSize){
+  function getPerOrgUsage(address _orgAddress) public view returns(
+    address RetorgAddress,
+    string memory RetbusinessType,
+    string memory RetbusinessSize,
+    uint RetmaxAllowableWaterUsage,
+    uint Retrecycleable,
+    uint RetmoreThanRecycleable
+  )
+    {
     orgName storage _orgName = orgNames[_orgAddress];
 
     RetorgAddress = _orgName.orgAddress;
     RetbusinessType = _orgName.businessType;
     RetbusinessSize = _orgName.businessSize;
+    RetmaxAllowableWaterUsage = _orgName._allowlableLimit.maxAllowableWaterUsage;
+    Retrecycleable = _orgName._allowlableLimit.recycleable;
+    RetmoreThanRecycleable = _orgName._allowlableLimit.moreThanRecycleable;
 
-    return(RetorgAddress, RetbusinessType, RetbusinessSize);
+    return(RetorgAddress, RetbusinessType, RetbusinessSize, RetmaxAllowableWaterUsage,Retrecycleable,RetmoreThanRecycleable);
   }
 
   /// @notice This function allows the owner only to kill this contract
