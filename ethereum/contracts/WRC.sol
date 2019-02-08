@@ -62,9 +62,7 @@ contract WRC {
       return true;
 
     }
-  function getAllOrgsUsage() public view {
-    
-  }
+  
   function getPerOrgUsage(address _orgAddress) public view returns(
     address RetorgAddress,
     string memory RetbusinessType,

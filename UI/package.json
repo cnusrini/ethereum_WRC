@@ -1,0 +1,28 @@
+{
+  "name": "ethereum_WRC",
+  "version": "1.0.0",
+  "description": "[![Build Status](https://travis-ci.com/cnusrini/ethereum_WRC.svg?branch=master)](https://travis-ci.com/cnusrini/ethereum_WRC)",
+  "main": "truffle-config.js",
+  "dependencies": {
+    "next": "^7.0.2",
+    "react": "^16.8.1",
+    "react-dom": "^16.8.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cnusrini/ethereum_WRC.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cnusrini/ethereum_WRC/issues"
+  },
+  "homepage": "https://github.com/cnusrini/ethereum_WRC#readme"
+}

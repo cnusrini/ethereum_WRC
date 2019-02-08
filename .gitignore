@@ -1,2 +1,5 @@
 # This project files are commited to remote repository with the below files/folders ignored :
-/build/contracts
+/ethereum/build/contracts
+/hub/node_modules/
+/UI/.next/
+/UI/node_modules/
