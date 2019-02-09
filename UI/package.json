@@ -2,11 +2,12 @@
   "name": "ethereum_WRC",
   "version": "1.0.0",
   "description": "[![Build Status](https://travis-ci.com/cnusrini/ethereum_WRC.svg?branch=master)](https://travis-ci.com/cnusrini/ethereum_WRC)",
-  "main": "truffle-config.js",
+  "main": "index.js",
   "dependencies": {
     "next": "^7.0.2",
     "react": "^16.8.1",
-    "react-dom": "^16.8.1"
+    "react-dom": "^16.8.1",
+    "web3": "^1.0.0-beta.26"
   },
   "devDependencies": {},
   "scripts": {
