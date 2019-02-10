@@ -1,8 +1,5 @@
 import Web3 from 'web3';
 
-//const Web3 = require('web3');
-//const web3 = new Web3(new Web3.providers.WebsocketProvider('wss://rinkeby.infura.io/ws'));
-
 let web3;
 
 if(typeof window !== 'undefined' && typeof window.web3 !== 'undefined')

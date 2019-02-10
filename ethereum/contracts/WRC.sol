@@ -35,7 +35,8 @@ contract WRC {
     uint incentive;
     uint penality;
   }
-  event logAllOrgUsage(address indexed orgNameEvent, string businessTypeEvnt, string businessSizeEvnt);
+  event logPerOrgUsage(address indexed orgNameEvent, string businessTypeEvnt, string businessSizeEvnt,uint maxAllowableWaterUsageEvnt,uint recycleableEvnt,uint moreThanRecycleableEvnt);
+  event logRegOrg(address indexed orgNameEvent1, string businessTypeEvnt1, string businessSizeEvnt1,uint maxAllowableWaterUsageEvnt1,uint recycleableEvnt1,uint moreThanRecycleableEvnt1);
   constructor() public {
     owner = msg.sender;
   }
@@ -48,7 +49,7 @@ contract WRC {
     uint _recycleable,
     uint _moreThanRecycleable
   )
-    public returns(bool){
+    public {
 
       orgName storage _orgName = orgNames[msg.sender];
 
@@ -59,19 +60,21 @@ contract WRC {
       _orgName._allowlableLimit.recycleable = _recycleable;
       _orgName._allowlableLimit.moreThanRecycleable = _moreThanRecycleable;
 
-      return true;
+      emit logRegOrg(_orgName.orgAddress,_orgName.businessType,_orgName.businessSize,_orgName._allowlableLimit.maxAllowableWaterUsage,_orgName._allowlableLimit.recycleable,_orgName._allowlableLimit.moreThanRecycleable);
 
     }
-  
-  function getPerOrgUsage(address _orgAddress) public view returns(
+
+  function getPerOrgUsage(address _orgAddress) public returns(
+
     address RetorgAddress,
     string memory RetbusinessType,
     string memory RetbusinessSize,
     uint RetmaxAllowableWaterUsage,
     uint Retrecycleable,
     uint RetmoreThanRecycleable
-  )
-    {
+){
+
+
     orgName storage _orgName = orgNames[_orgAddress];
 
     RetorgAddress = _orgName.orgAddress;
@@ -81,7 +84,8 @@ contract WRC {
     Retrecycleable = _orgName._allowlableLimit.recycleable;
     RetmoreThanRecycleable = _orgName._allowlableLimit.moreThanRecycleable;
 
-    return(RetorgAddress, RetbusinessType, RetbusinessSize, RetmaxAllowableWaterUsage,Retrecycleable,RetmoreThanRecycleable);
+    emit logPerOrgUsage(RetorgAddress, RetbusinessType, RetbusinessSize, RetmaxAllowableWaterUsage,Retrecycleable,RetmoreThanRecycleable);
+    //return (RetorgAddress, RetbusinessType, RetbusinessSize, RetmaxAllowableWaterUsage,Retrecycleable,RetmoreThanRecycleable);
   }
 
   /// @notice This function allows the owner only to kill this contract
