@@ -4,6 +4,7 @@
   "description": "[![Build Status](https://travis-ci.com/cnusrini/ethereum_WRC.svg?branch=master)](https://travis-ci.com/cnusrini/ethereum_WRC)",
   "main": "index.js",
   "dependencies": {
+    "mesg-js": "^1.3.0",
     "next": "^7.0.2",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
