@@ -1,0 +1,20 @@
+{
+  "name": "iotTest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "azure-iot-device": "^1.9.3",
+    "azure-iot-device-mqtt": "^1.9.3",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "dps-keygen": "^0.3.1-beta",
+    "express": "^4.16.4"
+  }
+}

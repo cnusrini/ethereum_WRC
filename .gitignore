@@ -1,4 +1,5 @@
 # This project files are commited to remote repository with the below files/folders ignored :
 /ethereum/build/contracts
+/iotTest/node_modules/
 /UI/.next/
 /UI/node_modules/

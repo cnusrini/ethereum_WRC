@@ -1,26 +1,33 @@
-pragma solidity >=0.4.21 <0.6.0;
+pragma solidity ^0.5.0;
+import wastageCalculator from "./waterwastageCalculation.sol";
 
 contract WRC {
   address payable owner;
+  //Various category of product in the food and agriculture industry
   enum category {vegetables, meat, dairyproducts, fatsandoil}
+  //Various stages of waste water treatment
   enum treatmentlevel{Preliminary ,Primary,Secondary,Tertiary,Disinfection}
 
   struct orgName{
 
     address payable orgAddress;
     //Type of the business as defined in the enum Category
+    //This is needed as this dictates the water usages
     string businessType;
     //Size of the busines dictates the quantity of water needed to operate the business.
     //This gives WRC to incentivice/penalize depending upon the loowoable threshold
     string businessSize;
     allowlableLimit _allowlableLimit;
+    observations _observations;
   }
   mapping(address => orgName) orgNames;
   //expected allowable threashold
   struct allowlableLimit{
     uint maxAllowableWaterUsage;
-    uint recycleable;
-    uint moreThanRecycleable;
+    //Based on the industry standard, whats the minimum % of waste water which can be recycled
+    uint minRecycleable;
+
+
   }
 
   //Actual observations read from IoT devices
@@ -28,8 +35,10 @@ contract WRC {
     uint deciveID;
     uint waterUsed;
     uint waterSupplyed;
-    uint perRecycled;
+    uint wasteWater; // =waterSupplyed - waterUsed
+    uint percentageRecycled; // = % of wasteWater
   }
+
 
   struct calculations{
     uint incentive;
@@ -37,6 +46,7 @@ contract WRC {
   }
   event logPerOrgUsage(address indexed orgNameEvent, string businessTypeEvnt, string businessSizeEvnt,uint maxAllowableWaterUsageEvnt,uint recycleableEvnt,uint moreThanRecycleableEvnt);
   event logRegOrg(address indexed orgNameEvent1, string businessTypeEvnt1, string businessSizeEvnt1,uint maxAllowableWaterUsageEvnt1,uint recycleableEvnt1,uint moreThanRecycleableEvnt1);
+  event recycledEvent(address indexed orgNameEvent2, uint recycledEvent );
   constructor() public {
     owner = msg.sender;
   }
@@ -64,6 +74,18 @@ contract WRC {
 
     }
 
+  function percentageRecycled() public {
+    uint _supplied =0;
+    uint _used =0;
+    uint _waste =0;
+
+    orgName storage _orgName = orgNames[msg.sender];
+    _supplied = _orgName._observations.waterSupplyed;
+    _used = _orgName._observations.waterUsed;
+    _waste = wastageCalculator.wasteWater(_supplied,_used);
+
+    recycledEvent(msg.sener,_waste);
+  }
   function getPerOrgUsage(address _orgAddress) public returns(
 
     address RetorgAddress,
